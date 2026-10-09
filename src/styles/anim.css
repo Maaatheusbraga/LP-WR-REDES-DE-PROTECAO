@@ -1,0 +1,119 @@
+/* Entrance/scroll animation initial states (FOUC gate).
+
+   From-states apply only once JS is active (html.anim-ready, set by an inline
+   <head> script before first paint) so no-JS renders everything visible. GSAP
+   then writes inline styles that override these rules as it animates. Under
+   prefers-reduced-motion the engine removes `anim-ready`, so the page renders
+   in its final state with no motion. */
+
+/* Page-to-page transition overlay — a cinematic fade through soft-black. Without
+   JS / under reduced motion it's transparent (or display:none) so content shows
+   immediately. With JS it's gated opaque on first paint; the engine fades it out
+   to revelar, and fades a fresh panel in to cover before an internal-link
+   navigation. The dark document background (see global-styles) bridges the
+   inter-document gap so no white frame ever shows between pages. */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--base--black, #000);
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity;
+}
+html.anim-ready .page-transition {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    display: none;
+  }
+}
+
+/* Universal scroll revelars (site-wide) */
+html.anim-ready .scroll-into-view,
+html.anim-ready .heading-large,
+html.anim-ready [animation='heading-large'],
+html.anim-ready [animation='section-heading'] {
+  opacity: 0;
+}
+
+/* Hero LOAD entrance (internal pages) — gate the cascade hooks so the from-state
+   never flashes. hero-form-input is excluded: the labels/inputs aren't animated
+   individually — they ride along with the form card (hero-form), which enters as
+   one cohesive unit (rise + blur + fade). */
+html.anim-ready [animation='hero-tag'],
+html.anim-ready [animation='hero-title'],
+html.anim-ready [animation='hero-blog-card'],
+html.anim-ready [animation='hero-button'],
+html.anim-ready [animation='hero-stats'],
+html.anim-ready [animation='hero-img'],
+html.anim-ready [animation='hero-form'] {
+  opacity: 0;
+}
+
+/* Rich-text entrance (blog article body) — fade-up from-state. */
+html.anim-ready [data-richtext-revelar] {
+  opacity: 0;
+}
+
+/* Clip revelar — image comecas fully clipped (uncovers bottom-to-top). */
+html.anim-ready [data-clip-revelar] {
+  clip-path: inset(100% 0 0 0);
+}
+
+/* Hero images that use the clip revelar (gated above) must clip the scale-in so
+   it never bleeds past the wrapper; overflow applies always (harmless no-JS). */
+.about-hero_img,
+.services-hero_img,
+.blog-hero_image,
+.member-hero_img {
+  overflow: hidden;
+}
+
+/* Staggered group — children comeca hidden, cascade in on scroll. */
+html.anim-ready [data-stagger] > * {
+  opacity: 0;
+}
+
+/* Soft revelar — block comecas hidden, fades + rises gently on scroll. */
+html.anim-ready [data-soft-revelar] {
+  opacity: 0;
+}
+
+/* Navbar entrance — the bar fades in on every load (home via initInicioLoad,
+   internal pages via initNavEntrance). Both clear the inline opacity when done.
+   Only the root opacity is gated here; the inner clusters' rise-from-state is
+   set in JS (safe: the bar is invisible that frame). Opacity alone never
+   establishes a containing block, so the fixed overlay menu is unaffected. */
+html.anim-ready .nav {
+  opacity: 0;
+}
+
+/* Inicio hero load cascade — tablet + desktop only (mobile stays static).
+   All targets are scoped under .section_home / .stripes_wrapper so no other
+   page is affected. The navbar drop-in is choreographed inside initInicioLoad. */
+@media (min-width: 768px) {
+  /* The curtain covers the whole hero before the load timeline plays, so the
+     elements beneath it (h1, image) don't need their own clip/opacity gate —
+     just their transform from-states, which GSAP sets before first revelar. */
+  html.anim-ready .section_home .home-curtain {
+    transform: scaleY(1);
+  }
+  html.anim-ready .section_home .home-background .img {
+    transform: scale(1.2);
+    filter: blur(12px);
+  }
+  html.anim-ready .section_home .hero_gradient {
+    opacity: 0;
+  }
+  html.anim-ready .section_home .max-description,
+  html.anim-ready .section_home .home_layout-content > div:last-child {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  html.anim-ready [data-home-stripes] .stripes {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+}

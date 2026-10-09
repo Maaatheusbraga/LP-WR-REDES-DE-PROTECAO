@@ -1,0 +1,25 @@
+---
+// Eagle CTA button. `variant="secondary"` ports the source's
+// `` (white mask, orange text,
+// secondary-bg icon) via the original Webflow variant classes so it matches the
+// compiled stylesheet exactly. Default (base) is the dark mask used over light.
+export interface Props {
+  href?: string;
+  label?: string;
+  variant?: 'base' | 'secondary';
+  class?: string;
+}
+const { href, label = 'Fale conosco', variant = 'base', class: extra = '' } = Astro.props;
+const v = variant === 'secondary' ? 'w-variant-8e98b495-41ed-f293-c19c-799db1427c2c' : '';
+---
+
+<button type="button" class:list={['button_component', 'w-inline-block', extra]}
+>
+  <div class:list={['button_mask', v]}>
+    <div class:list={['button_text', v]}>{label}</div>
+  </div>
+  <div class:list={['button_icon', v]}>
+    <img loading="lazy" src="/images/button-arrow.svg" alt="" class:list={['button_arrow', v, 'is-one']} />
+    <img loading="lazy" src="/images/button-arrow.svg" alt="" class:list={['button_arrow', v, 'is-two']} />
+  </div>
+</button>

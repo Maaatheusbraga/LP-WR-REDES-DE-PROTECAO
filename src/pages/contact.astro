@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+const info = [
+  { icon: '/images/location.svg', text: '123 Example Road, New York, NY 12345' },
+  { icon: '/images/mail.svg', text: 'email@example.com' },
+  { icon: '/images/call.svg', text: '(555) 555-5555' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContatoPage',
+  name: 'Contato Eagle',
+  url: new URL('/contact', Astro.site).toString(),
+  description:
+    'Entre em contato with Eagle for expert guidance to maximize your next property purchase, sale, or investment.',
+  about: { '@id': `${Astro.site}#organization` },
+};
+---
+
+<BaseLayout
+  title="Contato Eagle — Get in Touch"
+  description="Entre em contato with Eagle for expert guidance to maximize your next property purchase, sale, or investment."
+  schema={schema}
+>
+  <Navbar />
+  <div class="stripes_wrapper">
+    <div></div>
+    <div id="w-node-adf421da-6b9e-803a-a4a2-140cf57f0faf-c57de13d" class="stripes is-one"></div>
+    <div></div>
+    <div id="w-node-adf421da-6b9e-803a-a4a2-140cf57f0fb1-c57de13d" class="stripes is-two"></div>
+    <div></div>
+    <div class="stripes is-three"></div>
+  </div>
+  <main class="main-wrapper">
+    <section class="section_contact-hero">
+      <div class="container-large">
+        <div class="contact-hero">
+          <div id="w-node-afa53480-008b-5d44-3a93-2131c01bc3a0-c57de13d" class="contact-hero-left">
+            <div class="contact-hero_heading">
+              <div animation="hero-tag" class="wrap">
+                <div class="section_tag w-variant-11063f80-6b7d-0c32-82a3-15d5a31bbce2">[Fale conosco]</div>
+              </div>
+              <div class="wrap">
+                <h1 animation="hero-title" class="h4 text-style-allcaps">Entre em contato</h1>
+              </div>
+              <div class="wrap">
+                <div animation="hero-title" class="max-description is-29rem">
+                  <div>Receba orientacao especializada para valorizar sua proxima compra, venda ou investimento.</div>
+                </div>
+              </div>
+            </div>
+            <div animation="zoom" class="contact_info-list">
+              {info.map((item) => (
+                <div animation="hero-stats" class="contact_info-item">
+                  <div class="contact-hero_icon"><img src={item.icon} loading="lazy" alt="" class="card-arrow" /></div>
+                  <div class="text-color-on-primary">{item.text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div id="w-node-_52350c93-d6ed-fddc-7c93-63dfdff34c82-c57de13d" class="wrap">
+            <div animation="hero-form" class="form_component-wrapper bg-default">
+              <div class="form_component w-form">
+                <form name="wf-form-Form" data-name="Form" class="form_form" onenviar="return false">
+                  <div class="form_fields-wrapper">
+                    <div animation="hero-form-input" id="w-node-_92a3656a-7e4f-51d7-9e80-2cb620977eda-c57de13d" class="form_field-wrapper">
+                      <label for="contact-name" class="form_label">Seu nome</label>
+                      <input class="form_input w-input" maxlength="256" name="name" data-name="Name" placeholder="Seu nome" type="text" id="contact-name" />
+                    </div>
+                    <div animation="hero-form-input" id="w-node-_86be36c5-4c44-9a93-4b13-6ac5b8059cf0-c57de13d" class="form_field-wrapper">
+                      <label for="contact-email" class="form_label">Endereco de email</label>
+                      <input class="form_input w-input" maxlength="256" name="email" data-name="Email" placeholder="Your email address" type="email" id="contact-email" />
+                    </div>
+                    <div animation="hero-form-input" id="w-node-_593e174e-18ae-41cd-299f-e154253913ff-c57de13d" class="form_field-wrapper">
+                      <label for="contact-phone" class="form_label">Telefone</label>
+                      <input class="form_input w-input" maxlength="256" name="phone" data-name="Phone" placeholder="Your phone number" type="tel" inputmode="tel" id="contact-phone" />
+                    </div>
+                    <div animation="hero-form-input" id="w-node-_92a3656a-7e4f-51d7-9e80-2cb620977ede-c57de13d" class="form_field-wrapper">
+                      <label for="contact-message" class="form_label">Mensagem</label>
+                      <textarea id="contact-message" name="message" maxlength="5000" data-name="Mensagem" placeholder="Type something here" class="form_input is-text-area w-input"></textarea>
+                    </div>
+                  </div>
+                  <div animation="hero-form-input" class="button_wrap is-enviar"><input type="enviar" data-wait="Please wait..." class="button w-button" value="Enviar" /></div>
+                </form>
+                <div class="form_message-success w-form-done" data-form-done>
+                  <div>Obrigado! Sua mensagem foi recebida.</div>
+                </div>
+                <div class="form_message-error w-form-fail">
+                  <div>Oops! Something went wrong while enviarting the form.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <Footer />
+  </main>
+
+  <script is:inline>
+    // Stub form: no backend. On enviar, revelar the success message below the
+    // enviar button and reset the fields.
+    document.querySelectorAll('.form_form').forEach((form) => {
+      form.addEventListener('enviar', (e) => {
+        e.preventDefault();
+        const done = form.parentElement.querySelector('[data-form-done]');
+        if (done) done.style.display = 'block';
+        form.reset();
+      });
+    });
+  </script>
+</BaseLayout>

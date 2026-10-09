@@ -1,0 +1,379 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+const offers = [
+  {
+    title: 'Redes de proteção para janelas',
+    text: 'Evite acidentes com crianças e pets, mantendo a ventilação e a claridade da sua casa.',
+  },
+  {
+    title: 'Redes para sacadas e varandas',
+    text: 'Segurança total para os espaços de convivência, com instalação discreta e resistente.',
+  },
+  {
+    title: 'Redes de proteção para gatos e pets',
+    text: 'Liberdade e proteção para seu bichinho de estimação, com a tranquilidade de que ele estará seguro.',
+  },
+  {
+    title: 'Redes para piscinas',
+    text: 'Mais segurança para crianças e animais ao redor da área de lazer.',
+  },
+  {
+    title: 'Redes para quadras e áreas esportivas',
+    text: 'Proteção e contenção para quadras, campos e espaços de lazer.',
+  },
+  {
+    title: 'Redes para condomínios e empresas',
+    text: 'Soluções em larga escala, com projeto técnico e instalação profissional.',
+  },
+];
+
+const places = [
+  {
+    label: 'Janela',
+    image: '/images/trabalhos/janela-crianca.png',
+    alt: 'Criança atrás da rede de proteção branca em uma janela.',
+  },
+  {
+    label: 'Sacada',
+    image: '/images/trabalhos/sacada.jpg',
+    alt: 'Rede de proteção instalada em sacada, com a cidade ao fundo.',
+  },
+  {
+    label: 'Varanda',
+    image: '/images/trabalhos/varanda.jpg',
+    alt: 'Redes de proteção instaladas na varanda de uma casa de dois pavimentos.',
+  },
+  {
+    label: 'Piscina',
+    image: '/images/trabalhos/piscina.jpg',
+    alt: 'Rede de proteção estendida sobre a piscina.',
+  },
+];
+---
+
+<BaseLayout
+  title="W.R Redes de Proteção — São Paulo"
+  description="Rede de proteção em polietileno com anti-UV, instalada em São Paulo há mais de 10 anos. Para a criança, para o pet e para a casa. Peça orçamento no WhatsApp."
+>
+  <Navbar />
+  <div class="stripes_wrapper" data-home-stripes>
+    <div></div>
+    <div class="stripes is-one"></div>
+    <div></div>
+    <div class="stripes is-two"></div>
+    <div></div>
+    <div class="stripes is-three"></div>
+  </div>
+  <main class="main-wrapper">
+    <section id="inicio" class="section_home">
+      <div class="container-large">
+        <div class="home_layout">
+          <div class="opa-0"></div>
+          <div class="h1-huge_wrapper">
+            <h1 class="wr-hero-brand">
+              <img src="/images/logo-wr.png" alt="W.R Redes de Proteção" />
+            </h1>
+          </div>
+          <div class="home_layout-content">
+            <div class="max-description is-31rem">
+              <p class="wr-hero-promise">
+                <span>Sua família segura,</span>
+                <span>sua casa protegida.</span>
+              </p>
+            </div>
+            <div>
+              <a href="#contato" class="button_component w-inline-block">
+                <div class="button_mask"><div class="button_text">Pedir orçamento</div></div>
+                <div class="button_icon">
+                  <img src="/images/button-arrow.svg" alt="" class="button_arrow is-one" />
+                  <img src="/images/button-arrow.svg" alt="" class="button_arrow is-two" />
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero_gradient"></div>
+      <div class="home-curtain" data-home-curtain aria-hidden="true"></div>
+      <div class="home-background">
+        <img
+          src="/images/trabalhos/capa.jpg"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          alt="Casa com rede de proteção na varanda do andar de cima."
+          class="img"
+        />
+      </div>
+    </section>
+
+    <div class="wr-field" data-field>
+      <canvas class="wr-field-grid" data-kinetic aria-hidden="true"></canvas>
+
+    <section id="sobre" class="wr-section">
+      <div class="container-large wr-pad">
+        <div class="wr-about">
+          <div class="wr-mist" data-soft-revelar>
+            <h2 class="wr-sr">Quem somos</h2>
+            <p class="wr-lead">
+              Há mais de 10 anos, a W.R Redes de Proteção leva segurança e tranquilidade para famílias, condomínios e empresas em todo o estado de São Paulo.
+            </p>
+            <p class="wr-lead">
+              Trabalhamos com materiais de qualidade e uma equipe treinada e experiente. Cada projeto é feito sob medida, com instalação cuidadosa e acabamento impecável. Nosso compromisso é simples: proteger quem você ama, sem abrir mão da estética do seu ambiente.
+            </p>
+          </div>
+          <figure class="wr-frame" data-soft-revelar>
+            <img
+              class="is-mark"
+              src="/images/logo-rebranding.jpg"
+              alt="Marca W.R Redes de Proteção sobre fundo azul."
+              loading="lazy"
+            />
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="servicos" class="wr-section">
+      <div class="container-large wr-pad wr-mist" data-soft-revelar>
+        <h2 class="wr-title">Nossos serviços</h2>
+        <p class="wr-lead">
+          A W.R trabalha só com polietileno. O fio não absorve água e leva aditivo contra o sol.
+        </p>
+        <ul class="wr-offers">
+          {offers.map((offer) => (
+            <li>
+              <h3>{offer.title}</h3>
+              <p>{offer.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="wr-cover" data-cover data-soft-revelar>
+        <div class="wr-stage">
+          <div class="wr-stage-track">
+            {places.map((place, i) => (
+              <div class="wr-pivot" data-pivot>
+                <button type="button" class="wr-slide" data-slide={i} aria-label={place.label}>
+                  <img src={place.image} alt={place.alt} />
+                  <span class="wr-slide-caption">
+                    <strong>{place.label}</strong>
+                  </span>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="wr-cover-ui">
+          <button type="button" data-prev aria-label="Foto anterior">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="wr-dots">
+            {places.map((place, i) => (
+              <button type="button" data-dot={i} aria-label={place.label}></button>
+            ))}
+          </div>
+          <button type="button" data-next aria-label="Próxima foto">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="wr-section">
+      <div class="container-large wr-pad">
+        <h2 class="wr-steps-title" data-soft-revelar>Como funciona?</h2>
+        <ol class="wr-steps" data-soft-revelar>
+          <li>Você conta onde quer instalar.</li>
+          <li>A equipe vai até o local.</li>
+          <li>O orçamento sai na hora, sem custo.</li>
+        </ol>
+        <div class="wr-contact">
+          <div data-soft-revelar>
+            <img class="wr-logo-ink" src="/images/logo-wr-azul.png" alt="W.R Redes de Proteção" />
+            <h2 class="wr-title">Vamos proteger o seu lar e quem tanto ama?</h2>
+            <p class="wr-lead">
+              Solicite agora seu orçamento gratuito. Nossa equipe vai até você, avalia o local e indica a melhor solução para a sua necessidade.
+            </p>
+            <a class="wr-phone" href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a>
+          </div>
+          <form id="orcamento" class="wr-form" data-soft-revelar novalidate>
+            <div class="form_field-wrapper">
+              <label class="form_label" for="nome">Nome</label>
+              <input class="form_input" id="nome" name="nome" type="text" autocomplete="name" required placeholder="Seu nome" />
+            </div>
+            <div class="form_field-wrapper">
+              <label class="form_label" for="onde">Onde instalar</label>
+              <textarea class="form_input is-text-area" id="onde" name="onde" required placeholder="Sacada, 3 janelas e a varanda"></textarea>
+            </div>
+            <div class="form_field-wrapper">
+              <label class="form_label" for="lugar">Bairro ou cidade</label>
+              <input class="form_input" id="lugar" name="lugar" type="text" autocomplete="address-level2" required placeholder="Em São Paulo" />
+            </div>
+            <p class="wr-form-error" data-form-error hidden>Preencha nome, onde instalar e o bairro ou a cidade.</p>
+            <button class="button_component" type="submit">
+              <span class="button_mask"><span class="button_text">Enviar no WhatsApp</span></span>
+              <span class="button_icon">
+                <img src="/images/button-arrow.svg" alt="" class="button_arrow is-one" />
+                <img src="/images/button-arrow.svg" alt="" class="button_arrow is-two" />
+              </span>
+            </button>
+            <p class="wr-direct">
+              Se preferir, <a href={site.whatsapp} target="_blank" rel="noopener">chame direto no WhatsApp</a>.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <Footer />
+  </main>
+</BaseLayout>
+
+<script>
+  import { mountKineticGrid } from '../scripts/kinetic-grid';
+  mountKineticGrid();
+</script>
+
+<script>
+  const root = document.querySelector('[data-cover]');
+  if (root instanceof HTMLElement && root.dataset.loop !== 'on') {
+    root.dataset.loop = 'on';
+    const track = root.querySelector('.wr-stage-track');
+    const stage = root.querySelector('.wr-stage');
+    const originals = [...root.querySelectorAll('[data-pivot]')];
+    const dots = [...root.querySelectorAll('[data-dot]')];
+    const prev = root.querySelector('[data-prev]');
+    const next = root.querySelector('[data-next]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const count = originals.length;
+
+    if (track instanceof HTMLElement && stage instanceof HTMLElement && count > 0) {
+      const clonePivot = (pivot) => {
+        const copy = pivot.cloneNode(true);
+        if (copy instanceof HTMLElement) {
+          copy.setAttribute('aria-hidden', 'true');
+          copy.querySelectorAll('img').forEach((img) => { img.alt = ''; });
+          copy.querySelectorAll('button').forEach((button) => { button.tabIndex = -1; });
+        }
+        return copy;
+      };
+
+      const before = document.createDocumentFragment();
+      const after = document.createDocumentFragment();
+      originals.forEach((pivot) => {
+        before.appendChild(clonePivot(pivot));
+        after.appendChild(clonePivot(pivot));
+        const button = pivot.querySelector('button');
+        if (button instanceof HTMLButtonElement) button.tabIndex = -1;
+      });
+      track.insertBefore(before, originals[0]);
+      track.appendChild(after);
+
+      const pivots = [...track.querySelectorAll('[data-pivot]')];
+      let visual = count;
+
+      const logical = () => ((visual % count) + count) % count;
+
+      const place = (animate) => {
+        stage.classList.toggle('is-instant', !animate);
+        pivots.forEach((pivot, i) => {
+          if (!(pivot instanceof HTMLElement)) return;
+          const delta = i - visual;
+          const near = Math.max(-1, Math.min(1, delta));
+          const slide = pivot.querySelector('.wr-slide');
+          const active = delta === 0;
+          if (slide instanceof HTMLElement) {
+            slide.classList.toggle('is-active', active);
+            const turn = reduce ? 0 : near * -46;
+            const scale = active ? 1 : Math.abs(delta) === 1 ? 0.86 : 0.8;
+            slide.style.transform = `rotateY(${turn}deg) scale(${scale})`;
+          }
+          pivot.style.opacity = Math.abs(delta) > 2 ? '0' : '1';
+        });
+        const current = pivots[visual];
+        if (current instanceof HTMLElement) {
+          const x = stage.clientWidth / 2 - (current.offsetLeft + current.offsetWidth / 2);
+          track.style.transform = `translateX(${x}px)`;
+        }
+        const real = logical();
+        dots.forEach((dot, i) => {
+          if (!(dot instanceof HTMLButtonElement)) return;
+          const on = i === real;
+          dot.classList.toggle('is-active', on);
+          if (on) dot.setAttribute('aria-current', 'true');
+          else dot.removeAttribute('aria-current');
+        });
+        if (!animate) stage.getBoundingClientRect();
+        stage.classList.remove('is-instant');
+      };
+
+      const park = () => {
+        const home = count + logical();
+        if (visual === home) return;
+        visual = home;
+        place(false);
+      };
+
+      const step = (dir) => {
+        park();
+        visual += dir;
+        place(!reduce);
+      };
+
+      const goTo = (real) => {
+        park();
+        visual = count + real;
+        place(!reduce);
+      };
+
+      prev?.addEventListener('click', () => step(-1));
+      next?.addEventListener('click', () => step(1));
+      track.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const pivot = target.closest('[data-pivot]');
+        if (!(pivot instanceof HTMLElement)) return;
+        const index = pivots.indexOf(pivot);
+        if (index < 0 || index === visual) return;
+        step(index > visual ? 1 : -1);
+      });
+      dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+      root.addEventListener('keydown', (event) => {
+        if (!(event instanceof KeyboardEvent)) return;
+        if (event.key === 'ArrowRight') step(1);
+        if (event.key === 'ArrowLeft') step(-1);
+      });
+      window.addEventListener('resize', () => place(false));
+      place(false);
+    }
+  }
+</script>
+
+<script define:vars={{ whatsapp: site.whatsapp, contact: site.contact }}>
+  const form = document.querySelector('#orcamento');
+  if (form instanceof HTMLFormElement) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const nome = String(data.get('nome') || '').trim();
+      const onde = String(data.get('onde') || '').trim();
+      const lugar = String(data.get('lugar') || '').trim();
+      const error = form.querySelector('[data-form-error]');
+      if (!nome || !onde || !lugar) {
+        if (error instanceof HTMLElement) error.hidden = false;
+        const missing = form.querySelector('input:invalid, textarea:invalid');
+        if (missing instanceof HTMLElement) missing.focus();
+        return;
+      }
+      if (error instanceof HTMLElement) error.hidden = true;
+      const text = `Olá, ${contact}. Quero um orçamento de rede de proteção.\n\nNome: ${nome}\nOnde instalar: ${onde}\nBairro ou cidade: ${lugar}`;
+      window.location.assign(`${whatsapp}?text=${encodeURIComponent(text)}`);
+    });
+  }
+</script>

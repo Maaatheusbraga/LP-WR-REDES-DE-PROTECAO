@@ -1,0 +1,60 @@
+---
+// Horizontal scrolling testimonial row (the `testimonial_slider` tertiary
+// variant) used on the about + service detail pages. Native overflow scroll —
+// six static cards, no slider JS.
+const tag = '[ TESTIMONIAL ]';
+const heading =
+  "Finding the right home should be an exciting and informed experience. Se voce esta a first-time buyer or searching for your next investment property, we guide you through every step with clarity and confidence.";
+const items = [
+  { name: 'Julia Jhonson', role: 'CEO', img: '/images/user-testimonial.avif', srcset: '' },
+  { name: 'Dana Smith', role: 'Art Director', img: '/images/Rectangle-252x.avif', srcset: '/images/Rectangle-252x-p-500.avif 500w, /images/Rectangle-252x.avif 632w' },
+  { name: 'James Vile', role: 'CEFO', img: '/images/Rectangle-16.avif', srcset: '/images/Rectangle-16-p-500.avif 500w, /images/Rectangle-16-p-800.avif 800w, /images/Rectangle-16.avif 848w' },
+  { name: 'Julio Dans', role: 'Data Analist', img: '/images/Rectangle-126.avif', srcset: '/images/Rectangle-126-p-500.avif 500w, /images/Rectangle-126-p-800.avif 800w, /images/Rectangle-126.avif 848w' },
+  { name: 'Gina Plats', role: 'CEO', img: '/images/Rectangle-252x.avif', srcset: '/images/Rectangle-252x-p-500.avif 500w, /images/Rectangle-252x.avif 632w' },
+  { name: 'James Vile', role: 'CEO', img: '/images/user-testimonial.avif', srcset: '' },
+];
+const v = 'w-variant-b71cc481-76c8-1e94-45b2-7bcc1ab1d61b';
+const quote = 'We have had two great experiences working with Eagle, as they sold two of our homes. They were professional, attentive, and patient.';
+---
+
+<section class="section_testimonial">
+  <div class="padding-section-medium"></div>
+  <div class="container-large">
+    <div class="w-layout-grid default-grid">
+      <div id="w-node-d0149ff0-e2b9-4d5c-b6d2-52f622bfe3bf-22bfe3bb" class="wrap scroll-into-view">
+        <div class="section_tag">{tag}</div>
+      </div>
+      <div id="w-node-d0149ff0-e2b9-4d5c-b6d2-52f622bfe3c2-22bfe3bb" class="wrap">
+        <h2 class="heading-large">{heading}</h2>
+      </div>
+    </div>
+    <div class="spacer">
+      <div style="height:4rem" class="spacer-desktop"></div>
+      <div style="height:3rem" class="spacer-tablet"></div>
+      <div style="height:2rem" class="spacer-mobile"></div>
+    </div>
+  </div>
+  <div class="testimonial_slider scroll-into-view">
+    {items.map((t) => (
+      <div class="testimonial_slider-wrapper">
+        <div class={`testimonial_card ${v}`}>
+          <div class={`testimonial_info ${v}`}>
+            <img loading="lazy" src="/images/quote-black.svg" alt="" class="icon-1x1-xlarge" />
+            <div class="text-2xl">&ldquo;{quote}&rdquo;</div>
+          </div>
+          <div class="testimonial_user">
+            <div class="testimonial_img">
+              <img loading="lazy" src={t.img} alt={t.name} srcset={t.srcset || undefined} sizes={t.srcset ? '100vw' : undefined} class="img" />
+            </div>
+            <div class={`testimonial_user-info ${v}`}>
+              <div>{t.name}</div>
+              <div class="spacer-xsmall"></div>
+              <div>{t.role}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+  <div class="padding-section-medium"></div>
+</section>

@@ -1,0 +1,48 @@
+---
+// Depoimentos: four static quote cards over a large background wordmark.
+const depoimentos = [
+  { quote: 'We have had two great experiences working with Eagle, as they sold two of our homes. They were professional, attentive, and patient.', name: 'Dona Mackenzie', role: 'CEO', img: '/images/user-testimonial.avif' },
+  { quote: 'We have had two great experiences working with Eagle, as they sold two of our homes. They were professional, attentive, and patient.', name: 'Laura Salas', role: 'Designer', img: '/images/Rectangle-252x.avif' },
+  { quote: 'We have had two great experiences working with Eagle, as they sold two of our homes. They were professional, attentive, and patient.', name: 'James Vile', role: 'CEO', img: '/images/Rectangle-126.avif' },
+  { quote: 'We have had two great experiences working with Eagle, as they sold two of our homes. They were professional, attentive, and patient.', name: 'Peter Jhonas', role: 'Architect', img: '/images/Rectangle-16.avif' },
+];
+const pos = ['is-one', 'is-two', 'is-three', 'is-four'];
+// Grid-placement ids create the staggered diagonal layout (source stylesheet).
+const ids = [
+  'w-node-c4ae72e1-fbc9-0238-8626-43969055e12c-9055e125',
+  'w-node-c4ae72e1-fbc9-0238-8626-43969055e12e-9055e125',
+  'w-node-c4ae72e1-fbc9-0238-8626-43969055e130-9055e125',
+  'w-node-c4ae72e1-fbc9-0238-8626-43969055e132-9055e125',
+];
+---
+
+<section class="testi_section">
+  <section class="testimonial-bg"><img loading="lazy" src="/images/Stories.svg" alt="" class="stories-visual" /></section>
+  <section class="section_testimonial">
+    <div class="padding-section-medium"></div>
+    <div class="container-large">
+      <div class="testimonial_layout">
+        {depoimentos.map((t, i) => (
+          <div id={ids[i]} class:list={['testimonial_card-wrapper', pos[i]]}>
+            <div class="testimonial_card">
+              <div class="testimonial_info">
+                <img loading="lazy" src="/images/quote.svg" alt="" class="icon-1x1-xlarge" />
+                <div class="text-2xl">&ldquo;{t.quote}&rdquo;</div>
+              </div>
+              <div class="testimonial_user">
+                <div class="testimonial_img"><img loading="lazy" src={t.img} alt={t.name} class="img" /></div>
+                <div class="testimonial_user-info">
+                  <div>{t.name}</div>
+                  <div class="spacer-xsmall"></div>
+                  <div>{t.role}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="testimonial_spacer"></div>
+    </div>
+    <div class="padding-section-medium"></div>
+  </section>
+</section>

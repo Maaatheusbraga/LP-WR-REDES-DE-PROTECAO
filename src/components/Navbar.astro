@@ -1,0 +1,86 @@
+---
+import { site } from '../data/site';
+
+export interface Props {
+  variant?: 'base' | 'light-bg';
+}
+const { variant = 'base' } = Astro.props;
+const vc = variant === 'light-bg' ? 'w-variant-7886d230-fc2f-89b5-b1c4-dfef47f1acd5' : '';
+const path = Astro.url.pathname;
+const links = [
+  { href: '/#inicio', label: 'Início' },
+  { href: '/#sobre', label: 'Sobre' },
+  { href: '/#servicos', label: 'Serviços' },
+  { href: '/#contato', label: 'Contato' },
+];
+---
+
+<div data-nav class:list={['nav', 'w-nav', vc]} role="banner">
+  <div class="nav_bar">
+    <div class="nav_container">
+      <div class="menu">
+        <button type="button" data-menu-toggle aria-expanded="false" aria-label="Abrir menu" class:list={['menu_wrap', vc]}>
+          <div class="text-sm">MENU</div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 24 24" fill="none" class="menu-icon">
+            <path d="M3 18H21V16H3V18ZM3 13H21V11H3V13ZM3 6V8H21V6H3Z" fill="currentColor"></path>
+          </svg>
+        </button>
+      </div>
+      <a href="/#inicio" aria-current={path === '/' ? 'page' : undefined} class:list={['home_logo-link', vc]}>
+        <img class="wr-logo" src="/images/logo-wr.png" alt={site.name} />
+      </a>
+      <div class="nav_button">
+        <a href="/#contato" class="button_component w-inline-block">
+          <div class="button_mask">
+            <div class="button_text">Contato</div>
+          </div>
+          <div class="button_icon">
+            <img src="/images/button-arrow.svg" alt="" class="button_arrow is-one" />
+            <img src="/images/button-arrow.svg" alt="" class="button_arrow is-two" />
+          </div>
+        </a>
+      </div>
+      <div class:list={['menu_content', vc]}>
+        <div class="nav_content-wrap">
+          <div class="nav_menu-main">
+            <nav class="nav_links" aria-label="Seções">
+              {links.map((l) => (
+                <a href={l.href} class:list={['nav_link', 'is-lg', vc]}>
+                  <span class="nav_link-clip">
+                    <span class="nav_link-text">{l.label}</span>
+                    <span class="nav_link-line"></span>
+                  </span>
+                </a>
+              ))}
+            </nav>
+            <div class="nav_meta">
+              <div class="nav_meta-col">
+                <div class="nav_meta-label">Fale com {site.contact}</div>
+                <a href={`tel:${site.phoneTel}`} class="nav_meta-link">{site.phoneDisplay}</a>
+                <a href={site.whatsapp} target="_blank" rel="noopener" class="nav_meta-link">WhatsApp</a>
+              </div>
+              <div class="nav_meta-col">
+                <div class="nav_meta-label">Atendimento</div>
+                <div class="nav_meta-link">Toda São Paulo</div>
+              </div>
+            </div>
+          </div>
+          <div class="nav_image hide-tablet">
+            <img
+              alt="Rede de proteção em varanda de casa."
+              src="/images/trabalhos/varanda.jpg"
+              loading="lazy"
+              class="img"
+            />
+            <div class="nav_image-scrim"></div>
+            <div class="nav_image-caption">
+              <div class="nav_image-caption-label">São Paulo</div>
+              <div class="nav_image-caption-title">A casa aberta, protegida</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nav_overlay"></div>
+</div>

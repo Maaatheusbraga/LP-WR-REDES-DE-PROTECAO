@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import ContatoBand from '../components/ContactBand.astro';
+import Button from '../components/Button.astro';
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slug';
+
+// Servicos page order mirrors the published layout (the two middle cards sit raised).
+const pageOrder = ['Real Estate Consultation', 'Property Valuation', 'Property Investment', 'Property Leasing'];
+const services = (await getCollection('services')).sort(
+  (a, b) => pageOrder.indexOf(a.data.name) - pageOrder.indexOf(b.data.name),
+);
+// Grid-placement ids carry the offset row layout (source stylesheet).
+const rowIds = [
+  'w-node-_312a986b-1874-586b-b173-f8e02ebc62bf-877e1aa5',
+  'w-node-_312a986b-1874-586b-b173-f8e02ebc62c7-877e1aa5',
+  'w-node-_312a986b-1874-586b-b173-f8e02ebc62cf-877e1aa5',
+  'w-node-_312a986b-1874-586b-b173-f8e02ebc62d7-877e1aa5',
+];
+// Second and third items sit lower (the `is-two` offset).
+const rowMod = ['', 'is-two', 'is-two', ''];
+
+const partners = ['Vision', 'Network', 'Flash', 'Cactus', 'Vision-1', 'Greenish'];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Servicos — Eagle Real Estate',
+  url: new URL('/services', Astro.site).toString(),
+  description:
+    'Eagle offers a wide range of real estate services tailored to the unique needs of every buyer, seller, and investor.',
+  about: { '@id': `${Astro.site}#organization` },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: services.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'Service',
+        name: s.data.name,
+        description: s.data.description,
+        url: new URL(`/services/${slugify(s.data.name)}`, Astro.site).toString(),
+        provider: { '@id': `${Astro.site}#organization` },
+      },
+    })),
+  },
+};
+---
+
+<BaseLayout
+  title="Servicos — Eagle Real Estate"
+  description="Eagle offers a wide range of real estate services tailored to the unique needs of every buyer, seller, and investor."
+  schema={schema}
+>
+  <Navbar />
+  <div class="stripes_wrapper">
+    <div></div>
+    <div id="w-node-e5f4e346-7cd5-e751-7a92-1a9792d61d7a-877e1aa5" class="stripes is-one"></div>
+    <div></div>
+    <div id="w-node-e5f4e346-7cd5-e751-7a92-1a9792d61d7c-877e1aa5" class="stripes is-two"></div>
+    <div></div>
+    <div class="stripes is-three"></div>
+  </div>
+  <main class="main-wrapper">
+    <section class="section_services-hero">
+      <div class="container-large">
+        <div class="w-layout-grid services-hero_grid">
+          <div id="w-node-_23917a17-4fe4-a8b6-2c38-660c043ddc51-877e1aa5" class="services-hero_img">
+            <img
+              class="img"
+              src="/images/services-hero-bg.avif"
+              data-clip-revelar
+              alt="Two older men and a young woman in business suits standing inside a modern office with large windows showing a scenic outdoor view."
+              sizes="(max-width: 479px) 48vw, (max-width: 2608px) 49vw, 1278px"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              srcset="/images/services-hero-bg-p-500.avif 500w, /images/services-hero-bg.avif 1278w"
+            />
+          </div>
+          <div id="w-node-b350e7d8-1e2b-6f82-c50d-9bdf6822582d-877e1aa5" class="services_left">
+            <div animation="hero-tag" class="wrap">
+              <div class="section_tag w-variant-11063f80-6b7d-0c32-82a3-15d5a31bbce2">[ Eagle reality ]</div>
+            </div>
+            <div class="wrap">
+              <h1 animation="hero-title" class="h4 text-style-allcaps">Especialistas tornando a compra e venda de imoveis mais simples.</h1>
+            </div>
+            <div class="wrap">
+              <div class="max-description is-29rem">
+                <div animation="hero-title">At Eagle, we offer a wide range of real estate services tailored to meet the unique needs of each client.</div>
+              </div>
+            </div>
+            <div animation="hero-button" class="wrap">
+              <Button label="Fale conosco" variant="secondary" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="partners_loop">
+        <div class="partners_loop-row">
+          {partners.map((p) => (
+            <div class="loop_logo-wrap"><img loading="lazy" src={`/images/${p}.svg`} alt="" class="loop_logo-img" /></div>
+          ))}
+        </div>
+        <div class="partners_loop-row" aria-hidden="true">
+          {partners.map((p) => (
+            <div class="loop_logo-wrap"><img loading="lazy" src={`/images/${p}.svg`} alt="" class="loop_logo-img" /></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section_services">
+      <div class="padding-section-large"></div>
+      <div class="container-large">
+        <div class="services_title">
+          <div class="scroll-into-view">
+            <div class="section_tag">[ Servicos ]</div>
+          </div>
+          <div class="max-heading is-47rem">
+            <h2 animation="section-heading" class="text-style-allcaps">Exceptional Real Estate Servicos</h2>
+          </div>
+        </div>
+        <div class="spacer">
+          <div style="height: 4.5rem" class="spacer-desktop"></div>
+          <div style="height: 3rem" class="spacer-tablet"></div>
+          <div style="height: 2rem" class="spacer-mobile"></div>
+        </div>
+        <div class="services_row">
+          {services.map((s, i) => (
+            <div id={rowIds[i]} class:list={['services_row-item', rowMod[i]]}>
+              <div class="services_collection-wrapper">
+                <div role="list" class="services_collection-list">
+                  <div role="listitem" class="services_collection-item">
+                    <a href={`/services/${slugify(s.data.name)}`} class="services_card scroll-into-view w-inline-block">
+                      <img loading="lazy" src={s.data.icon} alt="" class="icon-1x1-xlarge" />
+                      <div>
+                        <div class="text-2xl">{s.data.name}</div>
+                        <div class="spacer-small"></div>
+                        <div class="text-color-secondary">{s.data.description}</div>
+                      </div>
+                      <div class="services_arrow">
+                        <img loading="lazy" alt="" src="/images/arrow-right-black.svg" class="card-arrow is-one" />
+                        <img loading="lazy" alt="" src="/images/arrow-right-black.svg" class="card-arrow is-two" />
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="padding-section-large"></div>
+    </section>
+
+    <ContatoBand />
+    <Footer />
+  </main>
+</BaseLayout>

@@ -1,0 +1,365 @@
+/* Project-specific overrides and small component tweaks layered on top of the
+   compiled Webflow stylesheet. Kept intentionally small — the bulk of the design
+   lives in webflow.css. */
+
+/* ── Overlay menu open/close ──────────────────────────────────────────────
+   The panel slides down from above and the blurred backdrop fades in when the
+   nav root carries data-menu="open" (toggled by navbar.ts). */
+.menu_content {
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+}
+[data-nav][data-menu='open'] .menu_content {
+  transform: translate(0, 0);
+  pointer-events: auto;
+}
+.nav_overlay {
+  display: block !important;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+[data-nav][data-menu='open'] .nav_overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+.menu_wrap { background: none; border: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .menu_content { transition: none; }
+}
+
+/* ── Overlay menu — editorial layout ──────────────────────────────────────
+   Redesigned from the source's sparse four-column link grid into a single
+   column of large links + a contact block + the captioned featured image, so
+   the panel reads intentional with only a handful of routes. Colors flip with
+   the nav variant (dark base / light-bg) via these custom properties. */
+.menu_content {
+  --menu-fg-soft: #cfcfcf;
+  --menu-muted: #7a7a7a;
+  --menu-accent: var(--base--orange);
+  --menu-border: #ffffff1f;
+}
+.menu_content:where(.w-variant-7886d230-fc2f-89b5-b1c4-dfef47f1acd5) {
+  --menu-fg-soft: #3a3a3a;
+  --menu-muted: #9a9a9a;
+  --menu-border: #1313131f;
+}
+.nav_menu-main {
+  flex: 1;
+  max-width: 42rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/* Stretch so the image fills the panel height (its inner img is height:100%);
+   the min-height keeps it present even when the link column is short. */
+.nav_image { align-self: stretch; min-height: 24rem; }
+
+/* Large links — keep the source's resting/hover colors (they flip per variant),
+   bump the scale, and bring the underline wipe to life (the source shipped a
+   `.line` element but never wired its hover). */
+.nav_link.is-lg {
+  height: auto;
+  opacity: 1;
+  padding: 0.5rem 0;
+  align-items: baseline;
+}
+.nav_link-clip {
+  position: relative;
+  display: inline-block;
+  /* The underline wipes in horizontally, so only clip X — clipping Y would cut
+     letter descenders (g, y, j) given the tight line-height. */
+  overflow-x: clip;
+  overflow-y: visible;
+  padding-bottom: 0.2em;
+}
+.nav_link-text {
+  font-size: 3rem;
+  line-height: 1.08;
+  letter-spacing: -0.05em;
+  font-weight: 600;
+}
+.nav_link-line {
+  position: absolute;
+  left: 0;
+  bottom: 0.02em;
+  width: 100%;
+  height: 2px;
+  background: var(--menu-accent);
+  transform: translateX(-101%);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.nav_link.is-lg:hover .nav_link-line { transform: translateX(0); }
+
+/* Contato + socials block fills the lower-left void. */
+.nav_meta {
+  display: flex;
+  gap: 3.5rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--menu-border);
+}
+.nav_meta-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--menu-muted);
+  margin-bottom: 0.6rem;
+}
+.nav_meta-link {
+  display: block;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--menu-fg-soft);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.nav_meta-link:hover { color: var(--menu-accent); }
+.nav_meta-socials { display: flex; flex-direction: column; }
+
+/* Recursod image gets a scrim + caption so it reads editorial, not decorative. */
+.nav_image .img { width: 100%; height: 100%; object-fit: cover; }
+.nav_image-scrim {
+  position: absolute;
+  inset: auto 0 0;
+  height: 55%;
+  background: linear-gradient(to top, #000000a6, transparent);
+  pointer-events: none;
+}
+.nav_image-caption { position: absolute; left: 0; bottom: 0; padding: 1.25rem 1.4rem; }
+.nav_image-caption-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ffd9cc;
+  margin-bottom: 0.2rem;
+}
+.nav_image-caption-title { font-size: 1.15rem; font-weight: 600; color: #fff; letter-spacing: -0.01em; }
+
+/* Staggered entrance when the panel opens. The delays live on the open state, so
+   closing reverts to the no-delay base rule and the menu dismisses cleanly. */
+.menu_content .nav_link,
+.menu_content .nav_meta {
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), color 0.2s ease;
+}
+[data-nav][data-menu='open'] .menu_content .nav_link,
+[data-nav][data-menu='open'] .menu_content .nav_meta { opacity: 1; transform: none; }
+[data-nav][data-menu='open'] .menu_content .nav_link:nth-of-type(1) { transition-delay: 0.14s; }
+[data-nav][data-menu='open'] .menu_content .nav_link:nth-of-type(2) { transition-delay: 0.2s; }
+[data-nav][data-menu='open'] .menu_content .nav_link:nth-of-type(3) { transition-delay: 0.26s; }
+[data-nav][data-menu='open'] .menu_content .nav_link:nth-of-type(4) { transition-delay: 0.32s; }
+[data-nav][data-menu='open'] .menu_content .nav_meta { transition-delay: 0.36s; }
+
+/* Tablet — keep the featured image but reflow: links + contact share a top row,
+   the image drops below as a full-width landscape banner. */
+@media screen and (max-width: 991px) {
+  .nav_link-text { font-size: 2.5rem; }
+  .nav_image.hide-tablet { display: block !important; }
+  .nav_content-wrap { flex-direction: column; gap: 2rem; }
+  .nav_menu-main {
+    flex: none;
+    max-width: none;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-comeca;
+    gap: 2rem;
+  }
+  .nav_meta { margin-top: 0; padding-top: 0; border-top: none; }
+  /* Drop the desktop min-width (26.5rem) so the banner respects the container
+     padding instead of overflowing on narrow screens. */
+  .nav_image { align-self: stretch; min-width: 0; min-height: 0; height: 13rem; }
+}
+/* Mobile — image hidden again; links stack above the contact block as before. */
+@media screen and (max-width: 767px) {
+  .nav_link-text { font-size: 2.1rem; }
+  .nav_image.hide-tablet { display: none !important; }
+  /* Align the dropdown content with the nav bar (MENU sits at 1.25rem); Webflow
+     drops nav_content-wrap to 0.5rem here, which misaligns it. flex-comeca kills
+     the space-between that opened a big gap between links and the contact block;
+     uniform gaps keep the spacing consistent. */
+  .nav_content-wrap {
+    justify-content: flex-comeca;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    gap: 1.5rem;
+  }
+  .nav_menu-main {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-comeca;
+    gap: 1.5rem;
+  }
+  .nav_meta {
+    margin-top: 0;
+    gap: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--menu-border);
+  }
+}
+/* Portrait — different structure: contact splits into two columns (fills the
+   width instead of a tall left-aligned stack) and the image returns as a
+   full-width banner at the bottom for visual weight. */
+@media screen and (max-width: 479px) {
+  .nav_link-text { font-size: 1.75rem; }
+  .nav_meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+  }
+  .nav_meta-col { flex: 1 1 8rem; }
+  .nav_image.hide-tablet { display: block !important; }
+  .nav_image { align-self: stretch; min-height: 0; height: 11rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu_content .nav_link,
+  .menu_content .nav_meta { opacity: 1; transform: none; transition: none; }
+  .nav_link-line { transition: none; }
+}
+
+/* ── Partners marquee (services hero) ─────────────────────────────────────
+   The source ran an IX2 loop translating `.partners_loop-row` 0 → -101.1%
+   over ~50s, linear, infinite. Ported as a CSS keyframe; the container clips
+   the overflow and two identical rows make the wrap seamless. */
+.partners_loop { overflow: hidden; }
+.partners_loop-row { animation: partners-marquee 50s linear infinite; }
+@keyframes partners-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-101.1%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .partners_loop-row { animation: none; }
+}
+
+/* Footer (portrait ≤479): match the gap between stacked link groups to the gap
+   between links within a group (0.75rem) so the column rhythm is uniform. */
+@media (max-width: 479px) {
+  .footer_links-wrapper { grid-row-gap: 0.75rem; row-gap: 0.75rem; }
+}
+
+/* Contato form success message: the source's `.form_message-success` carries
+   `padding: 100% 0 0` (a square spacer) that pushed the "Thank you" text far
+   below the form. That state never shows on the source (its form reloads via
+   method=get); our stub revelars it on enviar, so drop the spacer — the message
+   sits just below the enviar button. Don't set `display` here: visibility stays
+   controlled by `.w-form-done` (hidden until the script revelars it on enviar). */
+.section_contact-hero .form_message-success {
+  padding: 1.5rem 0 0;
+  text-align: left;
+}
+/* Portrait: center the success message. */
+@media (max-width: 479px) {
+  .section_contact-hero .form_message-success {
+    text-align: center;
+  }
+}
+
+/* Contato form inputs: transparent fill so they take the form wrapper's
+   background instead of an opaque white (which also flashed as white boxes
+   while the form's background fades in on the hero entrance). */
+.section_contact-hero .form_input {
+  background-color: transparent;
+}
+
+/* Hero background clips its image: the load push-in + perpetual Ken Burns
+   scale the inner <img> past 1, which would otherwise bleed out of the hero.
+   Clipping the wrapper (not .section_home) keeps the traveling EAGLE h1 free. */
+.home-background {
+  overflow: hidden;
+}
+
+/* Inicio hero "cinematic curtain" — a solid panel that wipes up on load to
+   revelar the hero. Base state is uncovered (scaleY 0) so no-JS / mobile /
+   reduced-motion never hide the hero; the anim.css gate flips it to cover. */
+.home-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  background: var(--base--black, #000);
+  transform: scaleY(0);
+  transform-origin: top;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-curtain { display: none !important; }
+}
+
+/* The lifted hero "EAGLE" rides above the nav (z 1002) for the scroll-shrink,
+   so while it's still BIG it would sit on top of the dropdown — hide it (soft
+   fade) when the menu opens. Once it has LANDED in the nav slot (small logo,
+   `eagle-landed`) it must stay: it IS the nav logo and doesn't overlap the menu.
+   navbar.ts toggles `menu-open`; scroll-revelar.ts toggles `eagle-landed`. */
+.h1-huge_wrapper {
+  transition: opacity 0.25s ease;
+}
+html.menu-open:not(.eagle-landed) .h1-huge_wrapper {
+  opacity: 0;
+}
+
+/* ============================================================= *
+ * Hover interactions (ported from the source IX3 recipes).
+ * The source markup's `animation="card-wrapper|card-bg|card-arrow-*"` hooks
+ * were dropped on port, so these key off the structural classes instead.
+ * Easing ~power4.out; durations from the decoded timelines.
+ * ============================================================= */
+:root { --hover-ease: cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* --- CTA button: arrow swap + label lift under the mask --- */
+.button_mask { overflow: hidden; }
+.button_text { transition: transform 0.4s var(--hover-ease); will-change: transform; }
+.button_arrow.is-one,
+.button_arrow.is-two {
+  transition: transform 0.5s var(--hover-ease), opacity 0.5s var(--hover-ease);
+}
+.button_arrow.is-two { transform: translateX(-200%); }
+.button_component:hover .button_arrow.is-one { transform: translateX(200%); opacity: 0; }
+.button_component:hover .button_arrow.is-two { transform: translateX(0); }
+.button_component:hover .button_text { transform: translateY(-2rem); }
+
+/* --- Image cards: zoom the (overflow-clipped) image on hover --- */
+.member_card .img,
+.blog-card .img,
+.blog-item .img,
+.blog-hero_card .img {
+  transition: transform 0.5s var(--hover-ease);
+  will-change: transform;
+}
+.member_card:hover .img,
+.blog-card:hover .img,
+.blog-item:hover .img,
+.blog-hero_card:hover .img {
+  transform: scale(1.1);
+}
+
+/* --- Cards / link rows: dual-arrow swipe (is-one out + fade, is-two in) --- */
+.card-arrow.is-one,
+.card-arrow.is-two {
+  transition: transform 0.3s var(--hover-ease), opacity 0.3s var(--hover-ease);
+}
+.card-arrow.is-two { transform: translateX(-250%); }
+.member_card:hover .card-arrow.is-one,
+.blog-card:hover .card-arrow.is-one,
+.blog-item:hover .card-arrow.is-one,
+.blog-hero_card:hover .card-arrow.is-one,
+.services_card:hover .card-arrow.is-one,
+.contact_bottom:hover .card-arrow.is-one {
+  transform: translateX(250%);
+  opacity: 0.4;
+}
+.member_card:hover .card-arrow.is-two,
+.blog-card:hover .card-arrow.is-two,
+.blog-item:hover .card-arrow.is-two,
+.blog-hero_card:hover .card-arrow.is-two,
+.services_card:hover .card-arrow.is-two,
+.contact_bottom:hover .card-arrow.is-two {
+  transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button_text, .button_arrow.is-one, .button_arrow.is-two,
+  .member_card .img, .blog-card .img, .blog-item .img, .blog-hero_card .img,
+  .card-arrow.is-one, .card-arrow.is-two { transition: none; }
+}

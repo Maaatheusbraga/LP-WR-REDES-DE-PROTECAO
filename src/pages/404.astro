@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Button from '../components/Button.astro';
+---
+
+<BaseLayout title="Pagina nao encontrada — Eagle" description="The page you are looking for nao foi encontrada." noindex>
+  <Navbar />
+  <section class="main-wrapper">
+    <div class="section_not-encontrada">
+      <div class="not-encontrada_wrapper">
+        <div class="not-encontrada_content">
+          <div class="not-encontrada_header">
+            <h1 class="text-5xl">Pagina nao <em>encontrada</em></h1>
+          </div>
+          <div class="button-wrapper">
+            <Button label="Voltar ao inicio" variant="base" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

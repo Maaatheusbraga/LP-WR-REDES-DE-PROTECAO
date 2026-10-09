@@ -1,0 +1,67 @@
+---
+// Servicos grid bound to the Servicos collection. Cards alternate left/right
+// layout and link to their detail page. Used on the home and services pages.
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slug';
+
+export interface Props {
+  tag?: string;
+  heading?: string;
+  // Grid-placement ids carry the offset masonry layout (from the source stylesheet).
+  cardIds?: string[];
+}
+const {
+  tag = '[ Servicos ]',
+  heading = 'Exceptional Real Estate Servicos',
+  cardIds = [
+    'w-node-_0daa5f19-b81d-9f28-17f7-868ed37fab51-41293e7a',
+    'w-node-_0daa5f19-b81d-9f28-17f7-868ed37fab5a-41293e7a',
+    'w-node-_0daa5f19-b81d-9f28-17f7-868ed37fab63-41293e7a',
+    'w-node-_0daa5f19-b81d-9f28-17f7-868ed37fab6c-41293e7a',
+  ],
+} = Astro.props;
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="section_heading">
+  <div class="padding-section-medium"></div>
+  <div class="container-large">
+    <div class="wrap">
+      <div class="services_heading">
+        <div class="scroll-into-view">
+          <div class="section_tag">{tag}</div>
+        </div>
+        <div class="max-heading is-47rem">
+          <h2 animation="section-heading" class="text-style-allcaps text-align-center">{heading}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="spacer">
+      <div style="height:4rem" class="spacer-desktop"></div>
+      <div style="height:3rem" class="spacer-tablet"></div>
+      <div style="height:2rem" class="spacer-mobile"></div>
+    </div>
+    <div class="services_grid">
+      {services.map((s, i) => (
+        <div id={cardIds[i]} class="scroll-into-view">
+          <div class:list={['services_card-wrapper', i % 2 === 0 ? 'is-left' : 'is-right']}>
+            <a href={`/services/${slugify(s.data.name)}`} class="services_card w-inline-block">
+              <img loading="lazy" src={s.data.icon} alt="" class="icon-1x1-xlarge" />
+              <div>
+                <div class="text-2xl">{s.data.name}</div>
+                <div class="spacer-small"></div>
+                <div class="text-color-secondary">{s.data.description}</div>
+              </div>
+              <div class="services_arrow">
+                <img loading="lazy" alt="" src="/images/arrow-right-black.svg" class="card-arrow is-one" />
+                <img loading="lazy" alt="" src="/images/arrow-right-black.svg" class="card-arrow is-two" />
+              </div>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="padding-section-medium"></div>
+</section>

@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { slugify } from '../../utils/slug';
+
+export async function getStaticPaths() {
+  const blogs = await getCollection('blogs');
+  return blogs.map((b) => ({ params: { slug: slugify(b.data.name) }, props: { blog: b, blogs } }));
+}
+
+const { blog, blogs } = Astro.props;
+const { name, description, image, content } = blog.data;
+
+// Artigos em destaque = the others, capped at three (matches the source grid).
+const featured = blogs
+  .filter((b) => b.id !== blog.id)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: name,
+  description,
+  image: new URL(image, Astro.site).toString(),
+  publisher: { '@id': `${Astro.site}#organization` },
+  mainEntityOfPage: Astro.url.href,
+};
+---
+
+<BaseLayout title={`${name} — Eagle Blog`} description={description} ogType="article" image={image} schema={schema}>
+  <Navbar variant="light-bg" />
+  <div class="stripes_wrapper">
+    <div></div>
+    <div id="w-node-ba9ffc0c-6bfb-e44a-ce80-1791f592e9de-8a1d650c" class="stripes is-one"></div>
+    <div></div>
+    <div id="w-node-ba9ffc0c-6bfb-e44a-ce80-1791f592e9e0-8a1d650c" class="stripes is-two"></div>
+    <div></div>
+    <div class="stripes is-three"></div>
+  </div>
+  <main class="main-wrapper">
+    <section class="section_blog-hero">
+      <div class="container-large">
+        <div class="w-layout-grid default-grid">
+          <div id="w-node-_5d328edb-34b2-559d-e315-a1ccaa005429-8a1d650c" class="wrap">
+            <div class="blog-hero_image"><img src={image} loading="eager" fetchpriority="high" decoding="async" data-clip-revelar alt={name} class="img" /></div>
+          </div>
+          <div id="w-node-_432fa40a-6ac0-dcdb-aaee-00c3871b6fcc-8a1d650c" class="blog-hero_heading">
+            <div animation="hero-tag">
+              <div class="section_tag">[ Article ]</div>
+            </div>
+            <h1 animation="hero-title" class="h5">{name}</h1>
+            <div animation="hero-title" class="text-color-secondary">{description}</div>
+          </div>
+        </div>
+      </div>
+      <div class="padding-section-small"></div>
+    </section>
+
+    <section class="section_blog-content">
+      <div class="padding-section-small"></div>
+      <div class="container-small">
+        <div class="wrap">
+          <div class="text-rich-text w-richtext" data-richtext-revelar set:html={content}></div>
+        </div>
+      </div>
+      <div class="padding-section-small"></div>
+    </section>
+
+    <section>
+      <div class="padding-section-medium"></div>
+      <div class="container-large">
+        <div class="w-layout-grid default-grid">
+          <div id="w-node-a90c9190-5eaa-d870-7721-fb11cd868045-8a1d650c" class="feature-blogs_heading">
+            <div class="scroll-into-view">
+              <div class="section_tag">[blogs]</div>
+            </div>
+            <h2 animation="section-heading" class="text-style-allcaps">Artigos em destaque</h2>
+          </div>
+        </div>
+        <div class="spacer">
+          <div style="height:4rem" class="spacer-desktop"></div>
+          <div style="height:3rem" class="spacer-tablet"></div>
+          <div style="height:2rem" class="spacer-mobile"></div>
+        </div>
+        <div class="feature-blogs_grid">
+          {featured.map((b) => (
+            <div class="feature-blogs_item">
+              <a href={`/blog/${slugify(b.data.name)}`} class="blog-item scroll-into-view w-inline-block">
+                <div class="blog-item-bg"><img loading="lazy" src={b.data.image} alt={b.data.name} class="img" /></div>
+                <div class="blog-item_info">
+                  <div class="text-xl">{b.data.name}</div>
+                </div>
+                <div class="blog-arrow">
+                  <img src="/images/arrow-right.svg" loading="lazy" alt="" class="card-arrow is-one" />
+                  <img src="/images/arrow-right.svg" loading="lazy" alt="" class="card-arrow is-two" />
+                </div>
+                <div class="blog-item_gradient"></div>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="padding-section-medium"></div>
+    </section>
+
+    <Footer />
+  </main>
+</BaseLayout>

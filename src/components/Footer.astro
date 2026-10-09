@@ -1,0 +1,39 @@
+---
+import { site } from '../data/site';
+
+const pages = [
+  { href: '/#inicio', label: 'Início' },
+  { href: '/#sobre', label: 'Sobre' },
+  { href: '/#servicos', label: 'Serviços' },
+  { href: '/#contato', label: 'Contato' },
+];
+---
+
+<footer class="footer bg-primary">
+  <div class="padding-section-small"></div>
+  <div class="container-large wr-pad">
+    <div class="footer_layout">
+      <div class="footer_top">
+        <a href="/#inicio" class="footer_logo w-inline-block">
+          <img src="/images/logo-wr.png" alt={site.name} class="wr-logo" />
+        </a>
+      </div>
+      <div class="footer_links-wrapper">
+        <div class="footer_links">
+          {pages.map((l) => (
+            <a href={l.href} class="footer_link w-inline-block"><div>{l.label}</div></a>
+          ))}
+        </div>
+        <div class="footer_links">
+          <a href={`tel:${site.phoneTel}`} class="footer_link w-inline-block"><div>{site.phoneDisplay}</div></a>
+          <a href={site.whatsapp} target="_blank" rel="noopener" class="footer_link w-inline-block"><div>WhatsApp · {site.contact}</div></a>
+          <div class="footer_link"><div>Toda São Paulo</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="spacer">
+    <div style="height:4rem" class="spacer-desktop"></div>
+    <div style="height:2rem" class="spacer-mobile"></div>
+  </div>
+</footer>

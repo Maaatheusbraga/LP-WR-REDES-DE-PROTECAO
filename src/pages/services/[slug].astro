@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import Button from '../../components/Button.astro';
+import TestimonialSlider from '../../components/TestimonialSlider.astro';
+import ContatoBand from '../../components/ContactBand.astro';
+import { getCollection } from 'astro:content';
+import { slugify } from '../../utils/slug';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map((s) => ({ params: { slug: slugify(s.data.name) }, props: { service: s } }));
+}
+
+const { service } = Astro.props;
+const { name, description, icon, heroImage } = service.data;
+
+const partners = ['Vision', 'Network', 'Flash', 'Cactus', 'Vision-1', 'Greenish'];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name,
+  description,
+  provider: { '@id': `${Astro.site}#organization` },
+};
+---
+
+<BaseLayout title={`${name} — Eagle Real Estate`} description={description} schema={schema}>
+  <Navbar />
+  <div class="stripes_wrapper">
+    <div></div>
+    <div id="w-node-_8bfc2184-c81b-d66e-2822-f3690d8d218a-5fff9883" class="stripes is-one"></div>
+    <div></div>
+    <div id="w-node-_8bfc2184-c81b-d66e-2822-f3690d8d218c-5fff9883" class="stripes is-two"></div>
+    <div></div>
+    <div class="stripes is-three"></div>
+  </div>
+  <main class="main-wrapper">
+    <section class="section_services-hero">
+      <div class="container-large">
+        <div class="w-layout-grid services-hero_grid">
+          <div id="w-node-c0052ebb-5bf0-0569-e2fa-1b75f9d12b48-5fff9883" class="services-hero_img">
+            <img src={heroImage} loading="eager" fetchpriority="high" decoding="async" data-clip-revelar alt={name} class="img" />
+          </div>
+          <div id="w-node-c0052ebb-5bf0-0569-e2fa-1b75f9d12b4a-5fff9883" class="services_left">
+            <div animation="hero-tag" class="wrap">
+              <div class="service-icon"><img src={icon} loading="lazy" alt="" class="icon-1x1-xlarge" /></div>
+            </div>
+            <div class="wrap">
+              <h1 animation="hero-title" class="h4 text-style-allcaps">{name}</h1>
+            </div>
+            <div class="wrap">
+              <div class="max-description is-29rem">
+                <div animation="hero-title">{description}</div>
+              </div>
+            </div>
+            <div animation="hero-button" class="wrap">
+              <Button label="Fale conosco" variant="secondary" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="partners_loop">
+        <div class="partners_loop-row">
+          {partners.map((p) => (
+            <div class="loop_logo-wrap"><img loading="lazy" src={`/images/${p}.svg`} alt="" class="loop_logo-img" /></div>
+          ))}
+        </div>
+        <div class="partners_loop-row" aria-hidden="true">
+          {partners.map((p) => (
+            <div class="loop_logo-wrap"><img loading="lazy" src={`/images/${p}.svg`} alt="" class="loop_logo-img" /></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <TestimonialSlider />
+    <ContatoBand />
+    <Footer />
+  </main>
+</BaseLayout>

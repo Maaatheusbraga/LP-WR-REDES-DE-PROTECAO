@@ -1,0 +1,112 @@
+---
+import '@fontsource/sanchez/400.css';
+import '@fontsource/alegreya-sans/400.css';
+import '@fontsource/alegreya-sans/400-italic.css';
+import '@fontsource/biryani/400.css';
+import '@fontsource/biryani/600.css';
+import '@fontsource/biryani/700.css';
+
+import '../styles/normalize.css';
+import '../styles/tokens.css';
+import '../styles/webflow.css';
+import '../styles/global-styles.css';
+import '../styles/components.css';
+import '../styles/anim.css';
+import '../styles/wr.css';
+import { site } from '../data/site';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  schema?: object;
+}
+
+const {
+  title,
+  description = 'Rede de proteção em polietileno com anti-UV, instalada em São Paulo há mais de 10 anos.',
+  image = '/images/trabalhos/sacada.jpg',
+  ogType = 'website',
+  noindex = false,
+  schema,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImage = new URL(image, Astro.site).toString();
+const siteUrl = Astro.site?.toString() ?? canonical;
+
+const orgId = `${siteUrl}#organization`;
+const siteSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HomeAndConstructionBusiness',
+    '@id': orgId,
+    name: site.name,
+    url: siteUrl,
+    description:
+      'Instalação de rede de proteção em polietileno, com aditivo anti-UV, em São Paulo.',
+    telephone: site.phoneTel,
+    areaServed: site.city,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${siteUrl}#website`,
+    name: site.name,
+    url: siteUrl,
+    publisher: { '@id': orgId },
+    inLanguage: 'pt-BR',
+  },
+];
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <!-- Gate JS-driven entrance from-states before first paint (no-JS renders all visible). -->
+    <script is:inline>document.documentElement.classList.add('anim-ready');</script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    <meta name="theme-color" content="#14598f" />
+
+    <link rel="icon" href="/images/favicon.jpg" sizes="any" />
+    <link rel="apple-touch-icon" href="/images/webclip.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:locale" content="pt_BR" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(siteSchema)} />
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  </head>
+  <body>
+    <!-- Page-to-page wipe overlay (slides up to revelar on arrival, up to cover on leave). -->
+    <div class="page-transition" data-page-transition aria-hidden="true"></div>
+    <div class="page-wrapper">
+      <slot />
+    </div>
+    <script>
+      import '../scripts/navbar.ts';
+      import '../scripts/scroll-reveal.ts';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import Button from '../../components/Button.astro';
+import { getCollection } from 'astro:content';
+import { slugify } from '../../utils/slug';
+
+const blogs = (await getCollection('blogs')).sort((a, b) => a.data.order - b.data.order);
+const featured = blogs[0];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'Eagle Blog',
+  url: new URL('/blog', Astro.site).toString(),
+  description: 'Blog e artigos from Eagle: tips and insights on buying, selling, and investing in real estate.',
+  publisher: { '@id': `${Astro.site}#organization` },
+  blogPost: blogs.map((b) => ({
+    '@type': 'BlogPosting',
+    headline: b.data.name,
+    description: b.data.description,
+    image: new URL(b.data.image, Astro.site).toString(),
+    url: new URL(`/blog/${slugify(b.data.name)}`, Astro.site).toString(),
+  })),
+};
+---
+
+<BaseLayout
+  title="Blog — Eagle Real Estate Insights"
+  description="Blog e artigos from Eagle: tips and insights on buying, selling, and investing in real estate."
+  schema={schema}
+>
+  <Navbar variant="light-bg" />
+  <div class="stripes_wrapper">
+    <div></div>
+    <div id="w-node-a2777fca-4844-b781-e131-dcc188e3bf2f-38a7a63c" class="stripes is-one"></div>
+    <div></div>
+    <div id="w-node-a2777fca-4844-b781-e131-dcc188e3bf31-38a7a63c" class="stripes is-two"></div>
+    <div></div>
+    <div class="stripes is-three"></div>
+  </div>
+  <main class="main-wrapper">
+    <section class="section_blogs-hero">
+      <div class="container-large">
+        <div class="w-layout-grid blogs-hero_grid">
+          <div id="w-node-_35f4025f-3b3e-2244-f24f-77f563e8efd4-38a7a63c" class="wrap">
+            <h1 animation="hero-title">BLOGS AND ARTICLES</h1>
+          </div>
+          {featured && (
+            <div animation="hero-blog-card" id="w-node-ca7dbd4f-8244-7d77-1230-859794406a98-38a7a63c" class="blogs-hero_right">
+              <a href={`/blog/${slugify(featured.data.name)}`} class="blog-hero_card w-inline-block">
+                <div class="blogs-hero_image"><img src={featured.data.image} loading="eager" fetchpriority="high" decoding="async" animation="card-bg" alt={featured.data.name} class="img" /></div>
+                <div class="blog-hero_info">
+                  <div class="text-2xl">{featured.data.name}</div>
+                  <div class="text-color-secondary">{featured.data.description}</div>
+                </div>
+                <div class="blog-arrow">
+                  <img src="/images/arrow-right-black.svg" loading="lazy" alt="" class="card-arrow is-one" />
+                  <img src="/images/arrow-right-black.svg" loading="lazy" alt="" class="card-arrow is-two" />
+                </div>
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section class="section_blogs">
+      <div class="padding-section-medium"></div>
+      <div class="container-large">
+        <div class="wrap">
+          <div class="blogs-grid">
+            {blogs.map((b) => (
+              <div class="blogs-grid_item">
+                <a href={`/blog/${slugify(b.data.name)}`} class="blog-card scroll-into-view w-inline-block">
+                  <div class="blog-card_img"><img src={b.data.image} loading="lazy" alt={b.data.name} class="img" /></div>
+                  <div class="blog-card_info">
+                    <div class="text-2xl">{b.data.name}</div>
+                    <div class="text-color-secondary">{b.data.description}</div>
+                  </div>
+                  <div class="blog-arrow">
+                    <img src="/images/arrow-right-black.svg" loading="lazy" alt="" class="card-arrow is-one" />
+                    <img src="/images/arrow-right-black.svg" loading="lazy" alt="" class="card-arrow is-two" />
+                  </div>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div class="padding-section-medium"></div>
+    </section>
+
+    <section class="section_cta">
+      <div class="padding-section-medium"></div>
+      <div class="container-large">
+        <div class="comecaed_grid">
+          <div id="w-node-bfcf153b-d260-5965-ed38-c5454a83589f-4a83589b" class="wrap-left">
+            <div>
+              <div class="scroll-into-view">
+                <div class="section_tag w-variant-11063f80-6b7d-0c32-82a3-15d5a31bbce2">[ Comecar agora free ]</div>
+              </div>
+              <div class="spacer-xlarge"></div>
+              <div class="scroll-into-view">
+                <h2 class="text-style-allcaps">Agende uma consultoria gratuita</h2>
+              </div>
+            </div>
+          </div>
+          <div id="w-node-bfcf153b-d260-5965-ed38-c5454a8358a6-4a83589b" class="wrap-left">
+            <div class="comecaed_right">
+              <div class="scroll-into-view">We craft inspiring spaces that blend cutting-edge design with enduring functionality, turning your vision into reality.</div>
+              <div class="scroll-into-view">
+                <Button label="Fale conosco" variant="secondary" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="padding-section-medium"></div>
+    </section>
+
+    <Footer />
+  </main>
+</BaseLayout>

@@ -1,0 +1,7 @@
+{
+  "name": "Property Valuation",
+  "description": "Receive accurate property valuations based on real market data, location trends, and comparable properties.",
+  "icon": "/images/cms/service-03.svg",
+  "heroImage": "/images/cms/Property-Valuation.webp",
+  "order": 2
+}

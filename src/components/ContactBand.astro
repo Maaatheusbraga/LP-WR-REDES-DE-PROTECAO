@@ -1,0 +1,29 @@
+---
+// Full-width contact band: a heading and a large link row to the contact page.
+export interface Props {
+  heading?: string;
+  text?: string;
+}
+const {
+  heading = 'Liderando o mercado com foco total no cliente',
+  text = 'We craft inspiring spaces that blend cutting-edge design',
+} = Astro.props;
+---
+
+<section class="section_contact">
+  <div class="contact_container">
+    <div class="contact_layout" data-soft-revelar>
+      <div id="w-node-_5a7eeded-38c9-c807-227d-4fe5c45a6f61-c45a6f5e" class="contact_top">
+        <h2 class="text-color-on-primary text-style-allcaps">{heading}</h2>
+      </div>
+      <a id="w-node-_5a7eeded-38c9-c807-227d-4fe5c45a6f64-c45a6f5e" href="/contact" class="contact_bottom w-inline-block">
+        <div class="text-xl">{text}</div>
+        <div>CONTACT</div>
+        <div class="contact_icon bg-default">
+          <img loading="lazy" alt="" src="/images/arrow-right-black.svg" class="card-arrow is-one" />
+          <img loading="lazy" alt="" src="/images/arrow-right-black.svg" class="card-arrow is-two" />
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

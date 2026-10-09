@@ -1,0 +1,60 @@
+---
+// "Comecar agora" CTA: copy + button on the left, image on the right.
+export interface Props {
+  tag?: string;
+  heading?: string;
+  text?: string;
+  image?: string;
+}
+const {
+  tag = '[ Comecar agora free ]',
+  heading = 'Agende uma consultoria gratuita',
+  text = 'We craft inspiring spaces that blend cutting-edge design with enduring functionality, turning your vision into reality.',
+  image = '/images/cta-img.avif',
+} = Astro.props;
+---
+
+<section class="section_get-comecaed">
+  <div class="padding-section-medium"></div>
+  <div class="container-large">
+    <div class="cta_layout">
+      <div id="w-node-a55e4f78-3f38-e5a7-7496-7d235619779a-56197796" class="cta_left">
+        <div>
+          <div class="scroll-into-view">
+            <div class="section_tag">{tag}</div>
+          </div>
+          <div class="spacer-xlarge"></div>
+          <h2 animation="section-heading" class="text-style-allcaps">{heading}</h2>
+          <div class="spacer-xlarge"></div>
+          <div class="scroll-into-view">
+            <div class="max-description is-31rem">
+              <div class="text-color-secondary">{text}</div>
+            </div>
+          </div>
+        </div>
+        <div class="button-wrapper scroll-into-view">
+          <a class="button_component w-inline-block">
+            <div class="button_mask">
+              <div class="button_text">Fale conosco</div>
+            </div>
+            <div class="button_icon">
+              <img loading="lazy" src="/images/button-arrow.svg" alt="" class="button_arrow is-one" />
+              <img loading="lazy" src="/images/button-arrow.svg" alt="" class="button_arrow is-two" />
+            </div>
+          </a>
+        </div>
+      </div>
+      <div id="w-node-a55e4f78-3f38-e5a7-7496-7d23561977a8-56197796" class="cta_img" data-clip-revelar>
+        <img
+          sizes="(max-width: 1152px) 100vw, 1152px"
+          srcset="/images/cta-img-p-500.avif 500w, /images/cta-img-p-800.avif 800w, /images/cta-img.avif 1152w"
+          alt="Modern luxury house with a large balcony, glass walls, and an infinity pool overlooking a rocky landscape."
+          src={image}
+          loading="lazy"
+          class="img_parallax"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-medium"></div>
+</section>

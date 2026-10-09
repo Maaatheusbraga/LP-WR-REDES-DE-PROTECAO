@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Pagina protegida — Eagle" description="Esta pagina e protegida por senha." noindex>
+  <div class="utility-page_component">
+    <div class="utility-page_wrapper w-password-page w-form">
+      <form method="post" name="email-form" data-name="Email Form" class="utility-page_form w-password-page" onenviar="return false">
+        <img alt="" width="106" src="/images/utility-lock.svg" class="utility-page_image" />
+        <h3>Pagina protegida</h3>
+        <input class="form_input w-password-page w-input" maxlength="256" name="pass" data-name="field" placeholder="Enter your password" type="password" id="pass" />
+        <input type="enviar" class="button w-password-page w-button" value="Enviar" />
+        <div class="form_message-error w-password-page w-form-fail">
+          <div>Senha incorreta. Tente novamente.</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</BaseLayout>

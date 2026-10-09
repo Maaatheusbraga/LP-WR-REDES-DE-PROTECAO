@@ -1,0 +1,185 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import TestimonialSlider from '../components/TestimonialSlider.astro';
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slug';
+
+const members = (await getCollection('members')).sort((a, b) => a.data.order - b.data.order);
+// The about team grid lays out three single-item columns in a staggered order.
+const teamLayout = ['is-three', '', 'is-two'];
+
+const stats = [
+  { value: '$30', label: 'Project value' },
+  { value: '$10', label: 'Project value' },
+  { value: '$1200', label: 'Project value' },
+  { value: '$520', label: 'Project value' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'SobrePage',
+  name: 'Sobre Eagle',
+  url: new URL('/about', Astro.site).toString(),
+  description:
+    'Eagle is a professional real estate agency leading the market with a client-first focus, handling every detail of your buying or selling journey.',
+  about: { '@id': `${Astro.site}#organization` },
+};
+---
+
+<BaseLayout
+  title="Sobre Eagle — Real Estate Agency"
+  description="Eagle is a professional real estate agency leading the market with a client-first focus, handling every detail of your buying or selling journey."
+  schema={schema}
+>
+  <Navbar />
+  <div class="stripes_wrapper">
+    <div></div>
+    <div id="w-node-_5365ab96-c651-b32f-2f6c-a83edf2f323a-fb62f1e5" class="stripes is-one"></div>
+    <div></div>
+    <div id="w-node-_5365ab96-c651-b32f-2f6c-a83edf2f323c-fb62f1e5" class="stripes is-two"></div>
+    <div></div>
+    <div class="stripes is-three"></div>
+  </div>
+  <main class="main-wrapper">
+    <section class="section_about-hero bg-primary">
+      <div class="container-large">
+        <div class="w-layout-grid about-hero_grid">
+          <div class="wrap">
+            <div class="about-hero_heading">
+              <div animation="hero-tag">
+                <div class="section_tag w-variant-11063f80-6b7d-0c32-82a3-15d5a31bbce2">[ Eagle reality ]</div>
+              </div>
+              <h1 animation="hero-title" class="h4 text-style-allcaps">Sobre eagle</h1>
+            </div>
+          </div>
+          <div class="wrap">
+            <div animation="hero-title" class="text-4xl">We handle every detail of your buying or selling journey, making the process seamless and stress-free</div>
+          </div>
+        </div>
+        <div class="spacer">
+          <div style="height:9rem" class="spacer-desktop"></div>
+          <div style="height:4rem" class="spacer-tablet"></div>
+          <div style="height:2rem" class="spacer-mobile"></div>
+        </div>
+        <div class="wrap">
+          <div class="about-hero_img">
+            <img
+              class="img"
+              src="/images/about-hero.avif"
+              data-clip-revelar
+              alt="Modern terrace living area with white sofas, two armchairs, wooden table, and a woman sitting looking out over a scenic coastline and ocean."
+              sizes="(max-width: 2432px) 100vw, 2432px"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              srcset="/images/about-hero-p-500.png 500w, /images/about-hero-p-800.png 800w, /images/about-hero.avif 2432w"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="padding-section-small"></div>
+    </section>
+
+    <section class="section_about">
+      <div class="padding-section-small"></div>
+      <div class="container-large">
+        <div class="w-layout-grid default-grid">
+          <div id="w-node-_33a97c17-8175-8286-99a6-dccdccdad734-fb62f1e5" class="about_title">
+            <div class="wrap scroll-into-view">
+              <div class="section_tag">[ Sobre nos ]</div>
+            </div>
+            <div class="wrap">
+              <h2 animation="heading-large" class="text-style-allcaps">Lideranca de mercado com foco no cliente</h2>
+            </div>
+          </div>
+        </div>
+        <div class="spacer">
+          <div style="height:6rem" class="spacer-desktop"></div>
+          <div style="height:3rem" class="spacer-tablet"></div>
+          <div style="height:2rem" class="spacer-mobile"></div>
+        </div>
+        <div class="w-layout-grid about_stats-grid" data-stagger>
+          {stats.map((s) => (
+            <div class="about_numbers">
+              <div class="text-color-secondary">{s.label}</div>
+              <div class="stat-number">
+                <div class="h5" data-counter>{s.value}</div>
+                <div class="text-2xl text-color-orange">M</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section_talk">
+      <div class="container-large">
+        <div class="talk_card-wrapper">
+          <div class="talk_card">
+            <div class="talk_heading">
+              <h2 animation="section-heading" class="text-style-allcaps">Driven by experience, committed to excellence</h2>
+              <div class="max-description is-31rem">
+                <div class="scroll-into-view">Nossa goal each day is to provide the level of outstanding service we once wished we&rsquo;d encontrada.</div>
+              </div>
+            </div>
+            <div class="scroll-into-view">
+              <a class="button_component w-inline-block">
+                <div class="button_mask"><div class="button_text">Fale conosco</div></div>
+                <div class="button_icon">
+                  <img loading="lazy" src="/images/button-arrow.svg" alt="" class="button_arrow is-one" />
+                  <img loading="lazy" src="/images/button-arrow.svg" alt="" class="button_arrow is-two" />
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section_team bg-primary">
+      <div class="padding-section-medium"></div>
+      <div class="container-large">
+        <div class="w-layout-grid default-grid">
+          <div id="w-node-_8ce5e387-9910-6980-0f61-27c4b85a63af-fb62f1e5" class="member_title">
+            <div class="scroll-into-view">
+              <div class="section_tag w-variant-11063f80-6b7d-0c32-82a3-15d5a31bbce2">[ Nossa team ]</div>
+            </div>
+            <h2 animation="section-heading" class="text-color-on-primary text-style-allcaps">Corretores que vao alem por voce.</h2>
+          </div>
+        </div>
+        <div class="spacer">
+          <div style="height: 4rem" class="spacer-desktop"></div>
+          <div style="height: 3rem" class="spacer-tablet"></div>
+          <div style="height: 2rem" class="spacer-mobile"></div>
+        </div>
+        <div class="container-medium">
+          <div class="team_grid">
+            {members.map((m, i) => (
+              <div class="team_collection-wrapper">
+                <div class:list={['member_card-wrapper', teamLayout[i]]}>
+                  <a href={`/member/${slugify(m.data.name)}`} class="member_card scroll-into-view w-inline-block">
+                    <div class="member_card-bg"><img loading="lazy" alt={m.data.name} src={m.data.image} class="img" /></div>
+                    <div class="member_icon">
+                      <img loading="lazy" alt="" src="/images/arrow-right-black.svg" class="card-arrow is-one" />
+                      <img loading="lazy" alt="" src="/images/arrow-right-black.svg" class="card-arrow is-two" />
+                    </div>
+                    <div class="member_info">
+                      <div class="text-xl">{m.data.name}</div>
+                      <div class="text-sm">{m.data.position}</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div class="padding-section-medium"></div>
+    </section>
+
+    <TestimonialSlider />
+    <Footer />
+  </main>
+</BaseLayout>

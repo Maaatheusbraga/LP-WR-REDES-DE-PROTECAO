@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import Button from '../../components/Button.astro';
+import { getCollection } from 'astro:content';
+import { slugify } from '../../utils/slug';
+
+export async function getStaticPaths() {
+  const members = await getCollection('members');
+  return members.map((m) => ({ params: { slug: slugify(m.data.name) }, props: { member: m } }));
+}
+
+const { member } = Astro.props;
+const { name, position, description, heroImage, linkedinUser, xUser, instagramUser } = member.data;
+
+// Social usernames come from the CMS; the platform home pages are sensible
+// placeholders (no real profile URLs exist in the data).
+const socials = [
+  { icon: '/images/linkedin.svg', user: linkedinUser, url: 'https://www.linkedin.com' },
+  { icon: '/images/twitter.svg', user: xUser, url: 'https://x.com' },
+  { icon: '/images/instagram.svg', user: instagramUser, url: 'https://www.instagram.com' },
+].filter((s) => s.user);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name,
+  jobTitle: position,
+  description,
+  image: new URL(heroImage, Astro.site).toString(),
+  worksFor: { '@id': `${Astro.site}#organization` },
+};
+---
+
+<BaseLayout title={`${name} — Eagle Real Estate`} description={description} schema={schema}>
+  <Navbar variant="light-bg" />
+  <div class="stripes_wrapper">
+    <div></div>
+    <div id="w-node-_0a509529-cb6e-c1e3-3978-c350872465ff-8d87162c" class="stripes is-one"></div>
+    <div></div>
+    <div id="w-node-_0a509529-cb6e-c1e3-3978-c35087246601-8d87162c" class="stripes is-two"></div>
+    <div></div>
+    <div class="stripes is-three"></div>
+  </div>
+  <main class="main-wrapper">
+    <section class="section_member-hero">
+      <div class="container-large">
+        <div class="w-layout-grid member-hero_grid">
+          <div id="w-node-_017f0d4d-4297-51fb-2b4c-ffd38f70091c-8d87162c" class="member-hero_img-wrap">
+            <div class="member-hero_img">
+              <img src={heroImage} loading="eager" fetchpriority="high" decoding="async" data-clip-revelar alt={name} class="img" />
+            </div>
+          </div>
+          <div id="w-node-_3ecfc766-12b5-5815-dd86-212b2d429576-8d87162c" class="member-hero_content">
+            <div class="team-hero_heading">
+              <div animation="hero-tag">
+                <div class="section_tag">[ {position} ]</div>
+              </div>
+              <h1 animation="hero-title" class="h2">{name}</h1>
+              <div animation="hero-title" class="text-color-secondary">{description}</div>
+            </div>
+            <div class="team-hero_socials">
+              <div class="socials_grid">
+                {socials.map((s) => (
+                  <a animation="hero-stats" href={s.url} target="_blank" rel="noopener noreferrer" class="social_item w-inline-block">
+                    <div class="social-icon-wrap"><img src={s.icon} loading="lazy" alt="" class="social-icon" /></div>
+                    <div>{s.user}</div>
+                  </a>
+                ))}
+              </div>
+              <div animation="hero-button">
+                <Button label="Fale conosco" variant="base" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section_comecaed">
+      <div class="container-large">
+        <div class="comecaed_layout">
+          <div class="comecaed_heading">
+            <div class="wrap scroll-into-view">
+              <div class="section_tag w-variant-11063f80-6b7d-0c32-82a3-15d5a31bbce2">[ Comecar agora free ]</div>
+            </div>
+            <div class="wrap">
+              <div class="max-heading is-38rem">
+                <h2 animation="section-heading" class="text-style-allcaps text-color-on-primary">Agende uma consultoria gratuita</h2>
+              </div>
+            </div>
+            <div class="wrap scroll-into-view">
+              <div class="max-description is-31rem">
+                <div class="text-color-on-primary">We craft inspiring spaces that blend cutting-edge design with enduring functionality, turning your vision into reality.</div>
+              </div>
+            </div>
+          </div>
+          <div class="button_wrap scroll-into-view">
+            <Button label="Fale conosco" variant="secondary" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+  </main>
+</BaseLayout>

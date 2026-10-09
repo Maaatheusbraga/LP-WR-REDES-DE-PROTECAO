@@ -1,0 +1,66 @@
+---
+// Team member grid bound to the Members collection. Cards link to the member
+// detail page. Used on the home (dark) and about pages.
+import { getCollection } from 'astro:content';
+import { slugify } from '../utils/slug';
+import Button from './Button.astro';
+
+export interface Props {
+  tag?: string;
+  heading?: string;
+  showButton?: boolean;
+  // Grid-placement id: spans the collection across the right columns (source stylesheet).
+  collectionId?: string;
+}
+const {
+  tag = '[ Nossa team ]',
+  heading = 'Corretores que vao alem por voce.',
+  showButton = true,
+  collectionId = 'w-node-_0daa5f19-b81d-9f28-17f7-868ed37faba4-41293e7a',
+} = Astro.props;
+
+const members = (await getCollection('members')).sort((a, b) => a.data.order - b.data.order);
+const layout = ['', 'is-two', 'is-three'];
+---
+
+<section class="section_team bg-primary">
+  <div class="padding-section-medium"></div>
+  <div class="container-large">
+    <div class="member_heading">
+      <div class="scroll-into-view">
+        <div class="section_tag w-variant-11063f80-6b7d-0c32-82a3-15d5a31bbce2">{tag}</div>
+      </div>
+      <h2 animation="section-heading" class="text-color-on-primary text-style-allcaps">{heading}</h2>
+    </div>
+    <div class="spacer">
+      <div style="height:4rem" class="spacer-desktop"></div>
+      <div style="height:3rem" class="spacer-tablet"></div>
+      <div style="height:2rem" class="spacer-mobile"></div>
+    </div>
+    <div class="member_layout">
+      {showButton && (
+        <div class="button_wrap scroll-into-view">
+          <Button label="Saiba mais" variant="secondary" />
+        </div>
+      )}
+      <div id={collectionId} class="member_collection">
+        {members.map((m, i) => (
+          <div class:list={['member_card-wrapper', layout[i % 3]]}>
+            <a href={`/member/${slugify(m.data.name)}`} class="member_card scroll-into-view w-inline-block">
+              <div class="member_card-bg"><img loading="lazy" alt={m.data.name} src={m.data.image} class="img" /></div>
+              <div class="member_icon">
+                <img loading="lazy" alt="" src="/images/arrow-right-black.svg" class="card-arrow is-one" />
+                <img loading="lazy" alt="" src="/images/arrow-right-black.svg" class="card-arrow is-two" />
+              </div>
+              <div class="member_info">
+                <div class="text-xl">{m.data.name}</div>
+                <div class="text-sm">{m.data.position}</div>
+              </div>
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+  <div class="padding-section-medium"></div>
+</section>
