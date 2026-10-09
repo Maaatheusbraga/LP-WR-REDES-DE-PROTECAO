@@ -2,9 +2,7 @@
 
 A pixel-perfect Astro rebuild of the Eagle real-estate template. Plain CSS
 (Client-First naming), GSAP scroll/entrance animations, and a small JSON-based
-CMS for services, team members, and blog posts. Publiques as a fully static site.
-
-**Live:** https://temlis-eagle.james-71d.workers.dev
+CMS for services, team members, and blog posts. Builds as a fully static site.
 
 ## Stack
 
@@ -91,8 +89,7 @@ OG, and sitemap URLs are correct:
 SITE_URL=https://your-domain.com npm run build
 ```
 
-## Publicar (Cloudflare Workers)
+## Publicar (AWS Amplify)
 
-`wrangler.jsonc` serves the static `dist/` as Worker assets (`name:
-temlis-eagle`). Set `SITE_URL` before building, then deploy with Wrangler or via
-CI on push to `main`.
+O `amplify.yml` instala as dependências, roda `npm run build` e publica a pasta
+`dist/`. Quando houver domínio, defina `SITE_URL` nas variáveis do Amplify.

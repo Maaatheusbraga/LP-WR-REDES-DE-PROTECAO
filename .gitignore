@@ -24,7 +24,6 @@ pnpm-debug.log*
 
 # deploy platform caches
 .vercel
-.wrangler/
 
 # local QA + generated assets (not part of the published site)
 qa-screenshots/

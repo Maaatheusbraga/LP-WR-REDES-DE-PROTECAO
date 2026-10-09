@@ -35,7 +35,7 @@ npx tsc --noEmit # typecheck
   `src/utils/slug.ts` (strips apostrophes like Webflow's CMS).
 - **SEO**: site-wide JSON-LD + `<head>` meta in `BaseLayout`; per-page JSON-LD
   via the `schema` prop; `robots.txt.ts` + sitemap at build. Origin from the
-  `SITE_URL` env var (default is the workers.dev placeholder).
+  `SITE_URL` env var, when set.
 
 ## Conventions / gotchas
 
@@ -55,5 +55,5 @@ npx tsc --noEmit # typecheck
 
 ## Publicar
 
-Cloudflare Workers (`wrangler.jsonc`, `name: temlis-eagle`) serving static
-`dist/`. Set `SITE_URL` before building so canonical/OG/sitemap are correct.
+AWS Amplify (`amplify.yml`) serves the static `dist/`. Set `SITE_URL` before
+building so canonical, Open Graph and sitemap URLs are correct.

@@ -1,9 +1,0 @@
-{
-  "name": "temlis-eagle",
-  "compatibility_date": "2026-06-19",
-  // Purely static: Workers serves the built dist/ as assets. No "main" entry-point.
-  "assets": {
-    "directory": "./dist"
-  },
-  "workers_dev": true
-}

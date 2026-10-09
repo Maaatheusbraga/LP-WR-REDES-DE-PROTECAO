@@ -3,12 +3,12 @@ import { defineConfig } from 'astro/config';
 
 import sitemap from '@astrojs/sitemap';
 
-// Publicar URL. Override with a SITE_URL env var (or repo variable in CI).
-const SITE = process.env.SITE_URL || 'https://temlis-eagle.workers.dev';
+// Endereço público. Defina SITE_URL no Amplify quando o domínio existir.
+const SITE = process.env.SITE_URL;
 
 // https://astro.build/config
 export default defineConfig({
-  site: SITE,
+  ...(SITE ? { site: SITE } : {}),
   output: 'static',
   compressHTML: true,
   // Prefetch the destination on hover so internal navigation is near-instant —
@@ -17,9 +17,11 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: 'hover',
   },
-  integrations: [
-    sitemap({
-      filter: (page) => !/\/(401|404)\/?$/.test(page),
-    }),
-  ],
+  integrations: SITE
+    ? [
+        sitemap({
+          filter: (page) => !/\/(401|404)\/?$/.test(page),
+        }),
+      ]
+    : [],
 });
