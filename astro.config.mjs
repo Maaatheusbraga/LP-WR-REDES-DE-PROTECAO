@@ -3,12 +3,17 @@ import { defineConfig } from 'astro/config';
 
 import sitemap from '@astrojs/sitemap';
 
-// Endereço público. Defina SITE_URL no Amplify quando o domínio existir.
-const SITE = process.env.SITE_URL;
+// Endereço público. SITE_URL ganha quando houver domínio.
+// No Amplify, o endereço da branch já vem nas variáveis da build.
+const SITE =
+  process.env.SITE_URL ||
+  (process.env.AWS_APP_ID && process.env.AWS_BRANCH
+    ? `https://${process.env.AWS_BRANCH}.${process.env.AWS_APP_ID}.amplifyapp.com`
+    : 'http://localhost:4321');
 
 // https://astro.build/config
 export default defineConfig({
-  ...(SITE ? { site: SITE } : {}),
+  site: SITE,
   output: 'static',
   compressHTML: true,
   // Prefetch the destination on hover so internal navigation is near-instant —
@@ -17,11 +22,9 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: 'hover',
   },
-  integrations: SITE
-    ? [
-        sitemap({
-          filter: (page) => !/\/(401|404)\/?$/.test(page),
-        }),
-      ]
-    : [],
+  integrations: [
+    sitemap({
+      filter: (page) => !/\/(401|404)\/?$/.test(page),
+    }),
+  ],
 });
